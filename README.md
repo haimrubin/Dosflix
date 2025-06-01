@@ -1,6 +1,5 @@
 # Full Stack Dosflix
 
-![Dosflix](https://i.ibb.co/mCPsJxb/image-1.png)
 
 This project is a full stack Dosflix built using React, Tailwind CSS, Next.js, Prisma, MongoDB, NextAuth, and deployed on Vercel. It aims to replicate the main features and functionality of the Netflix platform.
 
