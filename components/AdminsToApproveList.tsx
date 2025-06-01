@@ -48,7 +48,7 @@ export const AdminsToApproveList = ({ data, onAdminAction, title }: Props) => {
                 <h3 className="text-lg font-semibold text-white mb-2">{admin.name}</h3>
                 <p className="text-gray-400 text-sm">📍 {admin.city}, {admin.country}</p>
                 <p className="text-gray-400 text-sm">📞 {admin.phoneNumber}</p>
-                <p className="text-gray-300 text-lg italic mt-2">"{admin.message}"</p>
+                <p className="text-gray-300 text-lg italic mt-2">{admin.message}</p>
               </div>
               <div className="flex flex-col justify-center items-center mr-4">
                 <button 
