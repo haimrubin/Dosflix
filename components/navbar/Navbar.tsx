@@ -46,7 +46,7 @@ export const Navbar = (props: Props) => {
   return (
     <nav className="w-full fixed z-40">
       <div
-        className={`px-4 md:px-16 py-6 flex flex-row justify-between items-center transition duration-500 ${showBackground ? "bg-zing-900 bg-opacity-90" : ""
+        className={`px-4 md:px-16 py-6 flex flex-row justify-between items-center transition duration-500 ${showBackground ? "bg-zinc-900 bg-opacity-90" : ""
           } `}
       >
         <img className="h-6 lg:h-9" src="/images/dosflix.png" alt="dosflix" />

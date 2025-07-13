@@ -35,7 +35,6 @@ const Home: NextPage = () => {
     <>
     <Meta title="Home">
       <>
-      <h1>Test</h1>
         <InfoModal visible={isOpen} onClose={closeModal} />
         <Navbar />
         <Billboard />

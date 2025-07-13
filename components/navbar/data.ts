@@ -14,4 +14,9 @@ export const menuData = [
     text: "היסטורית צפיה",
     href: "/history",
   },
+  {
+    id: 6,
+    text: "אודות",
+    href: "/about",
+  },
 ];

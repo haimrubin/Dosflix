@@ -15,7 +15,11 @@ const Auth = () => {
   });
 
   const [variant, setVariant] = useState("login");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const toggleVariant = useCallback(() => {
+    setError(""); // Clear error when switching variants
     setVariant((currentVariant) =>
       currentVariant === "login" ? "register" : "login"
     );
@@ -25,19 +29,44 @@ const Auth = () => {
 
   const login = useCallback(async () => {
     try {
-      await signIn("credentials", {
+      setLoading(true);
+      setError("");
+
+      const result = await signIn("credentials", {
         email,
         password,
-        redirect: true,
+        redirect: false,
         callbackUrl: "/profiles",
       });
+
+      if (result?.error) {
+        // Handle specific error messages
+        if (result.error === "Email does not exist") {
+          setError("כתובת המייל לא קיימת במערכת");
+        } else if (result.error === "Incorrect password") {
+          setError("סיסמה שגויה");
+        } else if (result.error === "Email and password required") {
+          setError("נדרש להזין מייל וסיסמה");
+        } else {
+          setError("שגיאה בהתחברות. אנא נסה שוב");
+        }
+      } else if (result?.ok) {
+        // Redirect manually on success
+        window.location.href = "/profiles";
+      }
     } catch (error) {
       console.log(error);
+      setError("שגיאה בהתחברות. אנא נסה שוב");
+    } finally {
+      setLoading(false);
     }
   }, [email, password]);
 
   const register = useCallback(async () => {
     try {
+      setLoading(true);
+      setError("");
+
       await axios.post("/api/register", {
         email,
         name,
@@ -45,8 +74,14 @@ const Auth = () => {
       });
 
       login();
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      if (error.response?.data?.error === "Email taken :(") {
+        setError("כתובת המייל כבר קיימת במערכת");
+      } else {
+        setError("שגיאה ברישום. אנא נסה שוב");
+      }
+      setLoading(false);
     }
   }, [email, name, password, login]);
 
@@ -96,11 +131,18 @@ const Auth = () => {
                 />
               </div>
 
+              {error && (
+                <div className="bg-red-600 mt-4 p-3 rounded-md">
+                  <p className="text-white text-sm">{error}</p>
+                </div>
+              )}
+
               <button
                 onClick={variant === "login" ? login : register}
-                className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
+                disabled={loading}
+                className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {variant === "login" ? "התחבר" : "הרשם"}
+                {loading ? "טוען..." : variant === "login" ? "התחבר" : "הרשם"}
               </button>
 
               {/* <div className="flex flex-row items-center gap-4 mt-8 justify-center">
